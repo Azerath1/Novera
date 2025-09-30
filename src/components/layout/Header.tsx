@@ -1,14 +1,22 @@
-// src/components/layout/Navbar.tsx
+// src/components/layout/Header.tsx
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import {
-  ChevronDownIcon,
-  Bars3Icon,
-  XMarkIcon,
-} from "@heroicons/react/20/solid";
+  FiSun,
+  FiMoon,
+  FiSearch,
+  FiChevronDown,
+  FiMenu,
+  FiX,
+  FiUser,
+  FiBookmark,
+  FiBook,
+  FiLogOut,
+} from "react-icons/fi";
 
 export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -40,9 +48,7 @@ export default function Header() {
           {/* Логотип и название */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">N</span>
-              </div>
+              <Image src="/logo.svg" alt="Novera" width={32} height={32} />
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Novera
               </span>
@@ -53,12 +59,9 @@ export default function Header() {
           <div className="hidden md:flex items-center space-x-8">
             {/* Каталог с Headless UI меню */}
             <Menu as="div" className="relative">
-              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20">
+              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20">
                 Каталог
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="-mr-1 size-5 text-gray-400"
-                />
+                <FiChevronDown className="-mr-1 size-5 text-gray-400" />
               </MenuButton>
 
               <MenuItems
@@ -89,19 +92,16 @@ export default function Header() {
             {/* Топ */}
             <Link
               href="/top"
-              className="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20"
+              className="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20"
             >
               Топ
             </Link>
 
             {/* Сообщество с Headless UI меню */}
             <Menu as="div" className="relative">
-              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20">
+              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:ring-white/5 dark:hover:bg-white/20">
                 Сообщество
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="-mr-1 size-5 text-gray-400"
-                />
+                <FiChevronDown className="-mr-1 size-5 text-gray-400" />
               </MenuButton>
 
               <MenuItems
@@ -140,19 +140,7 @@ export default function Header() {
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-500"
                 aria-label="Поиск"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <FiSearch className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -170,33 +158,9 @@ export default function Header() {
               }
             >
               {isDarkMode ? (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
+                <FiSun className="w-5 h-5" />
               ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
+                <FiMoon className="w-5 h-5" />
               )}
             </button>
 
@@ -230,33 +194,9 @@ export default function Header() {
               }
             >
               {isDarkMode ? (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
+                <FiSun className="w-5 h-5" />
               ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
+                <FiMoon className="w-5 h-5" />
               )}
             </button>
 
@@ -267,9 +207,9 @@ export default function Header() {
               aria-label="Открыть меню"
             >
               {isMobileMenuOpen ? (
-                <XMarkIcon className="w-6 h-6" />
+                <FiX className="w-6 h-6" />
               ) : (
-                <Bars3Icon className="w-6 h-6" />
+                <FiMenu className="w-6 h-6" />
               )}
             </button>
           </div>
@@ -290,25 +230,14 @@ export default function Header() {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-500"
                   aria-label="Поиск"
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  <FiSearch className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Каталог для мобильных */}
               <div className="space-y-2">
-                <div className="font-semibold text-gray-900 dark:text-white px-2">
+                <div className="font-semibold text-gray-900 dark:text-white px-2 flex items-center">
+                  <FiBook className="w-4 h-4 mr-2" />
                   Каталог
                 </div>
                 <div className="flex flex-col space-y-1">
@@ -316,7 +245,7 @@ export default function Header() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                      className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors flex items-center"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {item.label}
@@ -328,7 +257,7 @@ export default function Header() {
               {/* Топ для мобильных */}
               <Link
                 href="/top"
-                className="px-2 py-2 font-semibold text-gray-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                className="px-2 py-2 font-semibold text-gray-900 dark:text-white hover:text-blue-500 dark:hover:text-blue-400 transition-colors flex items-center"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Топ
@@ -336,7 +265,7 @@ export default function Header() {
 
               {/* Сообщество для мобильных */}
               <div className="space-y-2">
-                <div className="font-semibold text-gray-900 dark:text-white px-2">
+                <div className="font-semibold text-gray-900 dark:text-white px-2 flex items-center">
                   Сообщество
                 </div>
                 <div className="flex flex-col space-y-1">
@@ -357,9 +286,10 @@ export default function Header() {
               <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
+                  className="px-4 py-2 text-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors flex items-center justify-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
+                  <FiUser className="w-4 h-4 mr-2" />
                   Войти
                 </Link>
                 <Link
