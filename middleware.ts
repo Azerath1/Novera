@@ -1,43 +1,40 @@
-// middleware.ts (в корне проекта)
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { verifySession } from './src/lib/session';
+// middleware.ts - пример будущей реализации
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  const { isAuthenticated } = await verifySession();
-  const path = request.nextUrl.pathname;
+export function middleware(request: NextRequest) {
+  // Проверка аутентификации
+  const token = request.cookies.get("auth-token");
+  const { pathname } = request.nextUrl;
 
   // Защищенные маршруты
-  const protectedRoutes = ['/dashboard', '/profile'];
-  // Публичные маршруты, недоступные для аутентифицированных пользователей
-  const authRoutes = ['/login', '/register'];
+  const protectedRoutes = ["/dashboard", "/profile", "/settings"];
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
 
-  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
-  const isAuthRoute = authRoutes.includes(path);
-
-  // Если пользователь не аутентифицирован и пытается получить доступ к защищенному маршруту
-  if (isProtectedRoute && !isAuthenticated) {
-    return NextResponse.redirect(new URL('/login', request.nextUrl));
+  // Если пользователь не авторизован и пытается получить доступ к защищенному маршруту
+  if (isProtectedRoute && !token) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Если пользователь аутентифицирован и пытается получить доступ к маршруту входа/регистрации
-  if (isAuthRoute && isAuthenticated) {
-    return NextResponse.redirect(new URL('/dashboard', request.nextUrl));
+  // Если пользователь авторизован и пытается получить доступ к auth страницам
+  const authRoutes = ["/login", "/register"];
+  const isAuthRoute = authRoutes.includes(pathname);
+
+  if (isAuthRoute && token) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();
 }
 
-// Конфигурация Middleware - указывает, для каких маршрутов он должен выполняться
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/settings/:path*",
+    "/login",
+    "/register",
   ],
 };

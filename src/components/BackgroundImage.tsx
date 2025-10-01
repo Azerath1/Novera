@@ -8,7 +8,7 @@ export default function BackgroundImage() {
         alt="Authentication background"
         fill
         priority
-        quality={85}
+        quality={75}
         className="object-cover"
         sizes="100vw"
         placeholder="blur"
