@@ -74,7 +74,7 @@ export const useLoginForm = () => {
     if (result.success) {
       router.push("/dashboard");
     } else {
-      setServerError(result.error || "Ошибка входа");
+      setServerError(result.error || "Неверный email или пароль");
     }
 
     setIsLoading(false);

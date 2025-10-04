@@ -9,17 +9,22 @@ export type ApiResponse<T = unknown> = {
 export class AuthAPI {
   static async register(
     data: RegisterFormData
-  ): Promise<ApiResponse<{ userId: string }>> {
+  ): Promise<ApiResponse<{ access_token: string }>> {
     try {
-      const response = await fetch('http://127.0.0.1:8000/auth/register', {
+      const response = await fetch("http://127.0.0.1:8000/auth/register", {
+        // Обновлённый путь
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: data.email,
+          username: data.username,
+          password: data.password,
+          password_confirm: data.confirmPassword,
+        }),
       });
 
-      // Пробуем распарсить JSON независимо от статуса
       let result;
       try {
         result = await response.json();
@@ -41,9 +46,10 @@ export class AuthAPI {
         };
       }
 
+      localStorage.setItem("auth-token", result.access_token);
       return {
         success: true,
-        data: result.data,
+        data: { access_token: result.access_token },
       };
     } catch (error) {
       console.error("Network error:", error);
@@ -56,17 +62,18 @@ export class AuthAPI {
 
   static async login(
     data: LoginFormData
-  ): Promise<ApiResponse<{ userId: string; access_token: string }>> {
+  ): Promise<ApiResponse<{ access_token: string }>> {
     try {
-      const response = await fetch('http://127.0.0.1:8000/auth/login', {
+      const formData = new FormData();
+      formData.append("username", data.email); // Используем username вместо email
+      formData.append("password", data.password);
+
+      const response = await fetch("http://127.0.0.1:8000/auth/login", {
+        // Обновлённый путь
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        body: formData, // Отправляем FormData вместо JSON
       });
 
-      // Пробуем распарсить JSON независимо от статуса
       let result;
       try {
         result = await response.json();
@@ -86,9 +93,15 @@ export class AuthAPI {
         };
       }
 
+      if (data.rememberMe) {
+        localStorage.setItem("auth-token", result.access_token);
+      } else {
+        sessionStorage.setItem("auth-token", result.access_token);
+      }
+
       return {
         success: true,
-        data: result.data,
+        data: { access_token: result.access_token },
       };
     } catch (error) {
       console.error("Network error:", error);
